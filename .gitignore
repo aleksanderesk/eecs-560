@@ -1,4 +1,3 @@
-*.swp
-*.o
-*.tar.gz
-*.txt
+*
+!*.h
+!*.cpp
