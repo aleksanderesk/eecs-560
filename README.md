@@ -1,1 +1,2 @@
-EECS 560 - Data Structures
+# EECS 560
+Data Structures
