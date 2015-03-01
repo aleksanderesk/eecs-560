@@ -2,34 +2,27 @@
  * Name: Aleksander Eskilson
  * KUID: 2373732
  * Email: aeskilson@ku.edu
- * Desc: Implementation of the Node class
+ * Desc: Definition of Node class, an itemtype agnostic container
+ * for data in the linked list
  */
-#include <cstddef>
+
+#ifndef _NODE
+#define _NODE
 
 template<class ItemType>
-Node<ItemType>::Node() : next(NULL) {
-}
+class Node {
+    private:
+        ItemType item;
+        Node<ItemType>* next;
 
-template<class ItemType>
-Node<ItemType>::Node(const ItemType& anItem) : item(anItem), next(NULL) {
-}
+    public:
+        Node();
+        Node(const ItemType& anItem);
+        Node(const ItemType& anItem, Node<ItemType>* nextNodePtr);
+        void setNext(Node<ItemType>* nextNodePtr);
+        ItemType getItem() const;
+        Node<ItemType>* getNext() const;
+};
 
-template<class ItemType>
-Node<ItemType>::Node(const ItemType& anItem, Node<ItemType>* nextNodePtr) :
-                item(anItem), next(nextNodePtr) {
-}
-
-template<class ItemType>
-void Node<ItemType>::setNext(Node<ItemType>* nextNodePtr) {
-    next = nextNodePtr;
-}
-
-template<class ItemType>
-ItemType Node<ItemType>::getItem() const {
-    return item;
-}
-
-template<class ItemType>
-Node<ItemType>* Node<ItemType>::getNext() const {
-    return next;
-}
+#include "Node.cpp"
+#endif
