@@ -23,7 +23,6 @@ class BinarySearchTree {
         void destroyTree(BinaryNode<ItemType>* subTreePtr);
         void inorderHelper(BinaryNode<ItemType>* subTreePtr) const;
         void preorderHelper(BinaryNode<ItemType>* subTreePtr) const;
-        void postorderHelper(BinaryNode<ItemType>* subTreePtr) const;
         BinaryNode<ItemType>* inorderInsertion(BinaryNode<ItemType>* subTreePtr, BinaryNode<ItemType>* newNodePtr);
         ItemType findMin(BinaryNode<ItemType>* subTreePtr);
         ItemType findMax(BinaryNode<ItemType>* subTreePtr);
@@ -39,9 +38,8 @@ class BinarySearchTree {
         ItemType getEntry(const ItemType& entry);
         void preorderTraverse() const;
         void inorderTraverse() const;
-        void postorderTraverse() const;
         void levelorderTraverse();
-};
+}
 
 #include "BinarySearchTree.cpp"
 #endif
