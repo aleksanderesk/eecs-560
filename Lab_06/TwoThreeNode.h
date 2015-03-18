@@ -9,9 +9,9 @@ class TwoThreeNode {
         ItemType min_third;
         ItemType key;
         TwoThreeNode<ItemType>* parent;
-        TwoThreeNode<ItemType>* first;
-        TwoThreeNode<ItemType>* second;
-        TwoThreeNode<ItemType>* third;
+        TwoThreeNode<ItemType>* firstChild;
+        TwoThreeNode<ItemType>* secondChild;
+        TwoThreeNode<ItemType>* thirdChild;
 
     public:
         TwoThreeNode();
@@ -24,7 +24,7 @@ class TwoThreeNode {
         TwoThreeNode<ItemType>* getParent() const;
         TwoThreeNode<ItemType>* getFirstChild() const;
         TwoThreeNode<ItemType>* getSecondChild() const;
-        TwoThreeNode<ItemTYpe>* getThirdChild() const;
+        TwoThreeNode<ItemType>* getThirdChild() const;
 
         void setTag(const bool& newTag);
         void setMinSecond(const ItemType& value);

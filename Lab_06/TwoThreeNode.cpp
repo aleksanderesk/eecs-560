@@ -13,7 +13,7 @@ TwoThreeNode<ItemType>::TwoThreeNode() {
 }
 
 template<class ItemType>
-TwoThreeNode<ItemType>::TwoThreeNode(const bool& tag, const ItemType& min_second, const ItemType& min_third, const ItemType& key, TwoThreeNode<ItemType>* parentPtr, TwoThreeNode<ItemType>* firstChildPtr, TwoThreeNode<ItemType>* secondChildPtr, TwoThreeNode<ItemType* thirdChildPtr) {
+TwoThreeNode<ItemType>::TwoThreeNode(const bool& tag, const ItemType& min_second, const ItemType& min_third, const ItemType& key, TwoThreeNode<ItemType>* parentPtr, TwoThreeNode<ItemType>* firstChildPtr, TwoThreeNode<ItemType>* secondChildPtr, TwoThreeNode<ItemType>* thirdChildPtr) {
     setTag(tag);
     setMinSecond(min_second);
     setMinThird(min_third);
@@ -25,43 +25,43 @@ TwoThreeNode<ItemType>::TwoThreeNode(const bool& tag, const ItemType& min_second
 }
 
 template<class ItemType>
-bool TwoThreeNode<ItemType>::getTag() {
+bool TwoThreeNode<ItemType>::getTag() const {
     return tag;
 }
 
 template<class ItemType>
-ItemType TwoThreeNode<ItemType>::getMinSecond() {
+ItemType TwoThreeNode<ItemType>::getMinSecond() const {
     return min_second;
 }
 
 template<class ItemType>
-ItemType TwoThreeNode<ItemType>::getMinThird() {
+ItemType TwoThreeNode<ItemType>::getMinThird() const {
     return min_third;
 }
 
 template<class ItemType>
-ItemType TwoThreeNode<ItemType>::getKey() {
+ItemType TwoThreeNode<ItemType>::getKey() const {
     return key;
 }
 
 template<class ItemType>
-TwoThreeNode<ItemType>* TwoThreeNode<ItemType>::getParent() {
+TwoThreeNode<ItemType>* TwoThreeNode<ItemType>::getParent() const {
     return parent;
 }
 
 template<class ItemType>
-TwoThreeNode<ItemType>* TwoThreeNode<ItemType>::getFirstChild() {
-    return first;
+TwoThreeNode<ItemType>* TwoThreeNode<ItemType>::getFirstChild() const {
+    return firstChild;
 }
 
 template<class ItemType>
-TwoThreeNode<ItemType>* TwoThreeNode<ItemType>::getSecondChild() {
-    return second;
+TwoThreeNode<ItemType>* TwoThreeNode<ItemType>::getSecondChild() const {
+    return secondChild;
 }
 
 template<class ItemType>
-TwoThreeNode<ItemType>* TwoThreeNode<ItemType>::getThirdChild() {
-    return third;
+TwoThreeNode<ItemType>* TwoThreeNode<ItemType>::getThirdChild() const {
+    return thirdChild;
 }
 
 template<class ItemType>
