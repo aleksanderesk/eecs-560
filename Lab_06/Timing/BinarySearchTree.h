@@ -39,7 +39,7 @@ class BinarySearchTree {
         void preorderTraverse() const;
         void inorderTraverse() const;
         void levelorderTraverse();
-}
+};
 
 #include "BinarySearchTree.cpp"
 #endif
