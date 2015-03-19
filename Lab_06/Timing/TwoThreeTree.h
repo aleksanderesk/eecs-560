@@ -8,8 +8,9 @@ template<class ItemType>
 class TwoThreeTree {
     private:
         TwoThreeNode<ItemType>* rootPtr;
+        void destroyTree(TwoThreeNode<ItemType>* subtreePtr);
         Queue<TwoThreeNode<ItemType>*> levelorderQueue;
-        
+        bool isPowerOfTwo(unsigned int x);
         TwoThreeNode<ItemType>* locate(const ItemType& value);
         TwoThreeNode<ItemType>* locateHelper(const ItemType& value, TwoThreeNode<ItemType>* subtreePtr);
         ItemType findMinVal(TwoThreeNode<ItemType>* nodePtr);

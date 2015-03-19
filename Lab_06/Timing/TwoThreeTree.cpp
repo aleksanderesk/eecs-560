@@ -1,4 +1,5 @@
 #include <iostream>
+#include <math.h>
 
 template<typename ItemType>
 TwoThreeTree<ItemType>::TwoThreeTree(): rootPtr(NULL) {
@@ -6,7 +7,27 @@ TwoThreeTree<ItemType>::TwoThreeTree(): rootPtr(NULL) {
 
 template<typename ItemType>
 TwoThreeTree<ItemType>::~TwoThreeTree() {
-    //destroyTree(rootPtr);
+    destroyTree(rootPtr);
+}
+
+template<typename ItemType>
+void TwoThreeTree<ItemType>::destroyTree(TwoThreeNode<ItemType>* subtreePtr) {
+    if (isLeaf(subtreePtr)) {
+        delete subtreePtr;
+    }
+    else {
+        if (subtreePtr -> getThirdChild() != NULL) {
+            destroyTree(subtreePtr -> getThirdChild());
+        }
+        if (subtreePtr -> getSecondChild() != NULL) {
+            destroyTree(subtreePtr -> getSecondChild());
+        }
+        if (subtreePtr -> getFirstChild() != NULL) {
+            destroyTree(subtreePtr -> getFirstChild());
+        }
+
+        delete subtreePtr;
+    }
 }
 
 template<typename ItemType>
@@ -14,6 +35,8 @@ void TwoThreeTree<ItemType>::levelorderTraverse() {
     if (rootPtr != NULL) {
         TwoThreeNode<ItemType>* nodeToVisitPtr;
         levelorderQueue.enqueue(rootPtr);
+        int level = 0;
+        int counter = 0;
 
         do {
             nodeToVisitPtr = levelorderQueue.peek();
@@ -35,7 +58,7 @@ void TwoThreeTree<ItemType>::levelorderTraverse() {
             }
 
             levelorderQueue.dequeue();
-        } while(!(levelorderQueue.isEmpty()));
+        } while (!(levelorderQueue.isEmpty()));
 
         std::cout << std::endl;
     }
@@ -58,7 +81,8 @@ TwoThreeNode<ItemType>* TwoThreeTree<ItemType>::findMinNode(TwoThreeNode<ItemTyp
 
 template<typename ItemType>
 void TwoThreeTree<ItemType>::deleteMin() {
-    removeHelper(findMinNode(rootPtr));
+    if (rootPtr != NULL)
+        removeHelper(findMinNode(rootPtr));
 }
 
 template<typename ItemType>
@@ -78,7 +102,8 @@ TwoThreeNode<ItemType>* TwoThreeTree<ItemType>::findMaxNode(TwoThreeNode<ItemTyp
 
 template<typename ItemType>
 void TwoThreeTree<ItemType>::deleteMax() {
-    removeHelper(findMaxNode(rootPtr));
+    if (rootPtr != NULL)
+        removeHelper(findMaxNode(rootPtr));
 }
 
 template<typename ItemType>
@@ -170,6 +195,64 @@ void TwoThreeTree<ItemType>::insert(const ItemType& newEntry) {
         }
         
         attach(siblingPtr, newLeafPtr, newLeafPtr -> getKey());
+    }
+}
+
+template<typename ItemType>
+void TwoThreeTree<ItemType>::attach(TwoThreeNode<ItemType>* siblingPtr, TwoThreeNode<ItemType>* leafPtr, ItemType leafLow) {
+    if (siblingPtr == rootPtr) {
+        rootPtr = new TwoThreeNode<ItemType>();
+        connect(siblingPtr, rootPtr, 1);
+        connect(leafPtr, rootPtr, 2);
+        rootPtr -> setMinSecond(leafLow);
+    }
+    else {
+        TwoThreeNode<ItemType>* parentPtr = siblingPtr -> getParent();
+        if (parentPtr == NULL) {
+        }
+        if (isTwoNode(parentPtr)) {
+            if (siblingPtr == parentPtr -> getSecondChild()) {
+                connect(leafPtr, parentPtr, 3);
+                parentPtr -> setMinThird(leafLow);
+            }
+            else {
+                TwoThreeNode<ItemType>* newThirdChild = parentPtr -> getSecondChild();
+                connect(newThirdChild, parentPtr, 3);
+                parentPtr -> setMinThird(parentPtr -> getMinSecond());
+                parentPtr -> setMinSecond(leafLow);
+                connect(leafPtr, parentPtr, 2);
+            }
+        }
+        else {
+            TwoThreeNode<ItemType>* splitNode = new TwoThreeNode<ItemType>();
+            ItemType newLow;
+            if (siblingPtr == parentPtr -> getThirdChild()) {
+                connect(leafPtr, splitNode, 2);
+                splitNode -> setMinSecond(leafLow);
+                newLow = parentPtr -> getMinThird();
+            }
+            else {
+                TwoThreeNode<ItemType>* newSecondChild = parentPtr -> getThirdChild();
+                connect(newSecondChild, splitNode, 2);
+                splitNode -> setMinSecond(parentPtr -> getMinThird());
+
+                if (siblingPtr == parentPtr -> getSecondChild()) {
+                    connect(leafPtr, splitNode, 1);
+                    newLow = leafLow;
+                }
+                else {
+                    TwoThreeNode<ItemType>* newFirstChild = parentPtr -> getSecondChild();
+                    connect(newFirstChild, splitNode, 1);
+                    newLow = parentPtr -> getMinSecond();
+                    connect(leafPtr, parentPtr, 2);
+                    parentPtr -> setMinSecond(leafLow);
+                }
+            }
+
+            parentPtr -> setThirdChild(NULL);
+            parentPtr -> setMinThird(-1);
+            attach(parentPtr, splitNode, newLow);
+        }
     }
 }
 
@@ -305,64 +388,6 @@ void TwoThreeTree<ItemType>::removeHelper(TwoThreeNode<ItemType>* nodeToDeletePt
         }
 
         updateMins(rootPtr);
-    }
-}
-
-template<typename ItemType>
-void TwoThreeTree<ItemType>::attach(TwoThreeNode<ItemType>* siblingPtr, TwoThreeNode<ItemType>* leafPtr, ItemType leafLow) {
-    if (siblingPtr == rootPtr) {
-        rootPtr = new TwoThreeNode<ItemType>();
-        connect(siblingPtr, rootPtr, 1);
-        connect(leafPtr, rootPtr, 2);
-        rootPtr -> setMinSecond(leafLow);
-    }
-    else {
-        TwoThreeNode<ItemType>* parentPtr = siblingPtr -> getParent();
-        if (parentPtr == NULL) {
-        }
-        if (isTwoNode(parentPtr)) {
-            if (siblingPtr == parentPtr -> getSecondChild()) {
-                connect(leafPtr, parentPtr, 3);
-                parentPtr -> setMinThird(leafLow);
-            }
-            else {
-                TwoThreeNode<ItemType>* newThirdChild = parentPtr -> getSecondChild();
-                connect(newThirdChild, parentPtr, 3);
-                parentPtr -> setMinThird(parentPtr -> getMinSecond());
-                parentPtr -> setMinSecond(leafLow);
-                connect(leafPtr, parentPtr, 2);
-            }
-        }
-        else {
-            TwoThreeNode<ItemType>* splitNode = new TwoThreeNode<ItemType>();
-            ItemType newLow;
-            if (siblingPtr == parentPtr -> getThirdChild()) {
-                connect(leafPtr, splitNode, 2);
-                splitNode -> setMinSecond(leafLow);
-                newLow = parentPtr -> getMinThird();
-            }
-            else {
-                TwoThreeNode<ItemType>* newSecondChild = parentPtr -> getThirdChild();
-                connect(newSecondChild, splitNode, 2);
-                splitNode -> setMinSecond(parentPtr -> getMinThird());
-
-                if (siblingPtr == parentPtr -> getSecondChild()) {
-                    connect(leafPtr, splitNode, 1);
-                    newLow = leafLow;
-                }
-                else {
-                    TwoThreeNode<ItemType>* newFirstChild = parentPtr -> getSecondChild();
-                    connect(newFirstChild, splitNode, 1);
-                    newLow = parentPtr -> getMinSecond();
-                    connect(leafPtr, parentPtr, 2);
-                    parentPtr -> setMinSecond(leafLow);
-                }
-            }
-
-            parentPtr -> setThirdChild(NULL);
-            parentPtr -> setMinThird(-1);
-            attach(parentPtr, splitNode, newLow);
-        }
     }
 }
 
