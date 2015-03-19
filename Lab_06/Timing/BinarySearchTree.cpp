@@ -25,10 +25,12 @@ template<typename ItemType>
 void BinarySearchTree<ItemType>::remove(const ItemType& entry) {
     bool success = false;
     rootPtr = removeValue(rootPtr, entry, success);
-
+    
+    /*
     if (success == false) {
         std::cout << "The item does not exist in the tree" << std::endl;
     }
+    */
 }
 
 template<typename ItemType>

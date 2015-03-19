@@ -412,10 +412,7 @@ void TwoThreeTree<ItemType>::attach(TwoThreeNode<ItemType>* siblingPtr, TwoThree
 template<typename ItemType>
 void TwoThreeTree<ItemType>::remove(const ItemType& entry) {
     TwoThreeNode<ItemType>* nodeToDeletePtr = find(entry);
-    if (nodeToDeletePtr == NULL) {
-        std::cout << "Value did not exist in the tree" << std::endl;
-    }
-    else {
+    if (nodeToDeletePtr != NULL) {
         removeHelper(nodeToDeletePtr);
     }
 }
@@ -449,6 +446,7 @@ void TwoThreeTree<ItemType>::removeHelper(TwoThreeNode<ItemType>* nodeToDeletePt
                 parentPtr -> setFirstChild(parentPtr -> getSecondChild());
                 parentPtr -> setSecondChild(parentPtr -> getThirdChild());
                 parentPtr -> setThirdChild(NULL);
+                
                 parentPtr -> setMinSecond(parentPtr -> getMinThird());
                 parentPtr -> setMinThird(-1);
             }
@@ -456,12 +454,14 @@ void TwoThreeTree<ItemType>::removeHelper(TwoThreeNode<ItemType>* nodeToDeletePt
                 delete nodeToDeletePtr;
                 parentPtr -> setSecondChild(parentPtr -> getThirdChild());
                 parentPtr -> setThirdChild(NULL);
+                
                 parentPtr -> setMinSecond(parentPtr -> getMinThird());
                 parentPtr -> setMinThird(-1);
             }
             else {
                 delete nodeToDeletePtr;
                 parentPtr -> setThirdChild(NULL);
+                
                 parentPtr -> setMinSecond(parentPtr -> getMinThird());
                 parentPtr -> setMinThird(-1);
             }
@@ -550,6 +550,9 @@ void TwoThreeTree<ItemType>::removeHelper(TwoThreeNode<ItemType>* nodeToDeletePt
                     connect(unclePtr -> getThirdChild(), unclePtr, 2);
 
                     unclePtr -> setThirdChild(NULL);
+
+                    parentPtr -> setMinSecond(findMinVal(parentPtr -> getSecondChild());
+                    unclePtr -> setMinSecond(findMinVal(unclePtr -> getSecondChild()));
                     unclePtr -> setMinThird(-1);
                 }
                 // uncle is has only 2 children, parent gives up its last child
@@ -589,6 +592,9 @@ void TwoThreeTree<ItemType>::removeHelper(TwoThreeNode<ItemType>* nodeToDeletePt
                         unclePtr = grandparentPtr -> getSecondChild();
                         connect(siblingPtr, unclePtr, 3);
                     }
+
+                    unclePtr -> setMinSecond(findMinVal(unclePtr -> getSecondChild()));
+                    unclePtr -> setMinThird(findMinVal(unclePtr -> getThirdChild()));
 
                     // delete the node, remove the childless parent
                     delete nodeToDeletePtr;
