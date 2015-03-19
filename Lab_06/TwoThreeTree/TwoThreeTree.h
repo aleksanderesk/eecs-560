@@ -1,3 +1,9 @@
+/**
+ * Name: Aleksander Eskilson
+ * KUID: 2373732
+ * Email: aeskilson@ku.edu
+ * Descr: Definition of TwoThreeTree
+ */
 #ifndef _TTTREE
 #define _TTTREE
 
@@ -10,14 +16,17 @@ class TwoThreeTree {
         TwoThreeNode<ItemType>* rootPtr;
         void destroyTree(TwoThreeNode<ItemType>* subtreePtr);
         Queue<TwoThreeNode<ItemType>*> levelorderQueue;
+
         TwoThreeNode<ItemType>* locate(const ItemType& value);
         TwoThreeNode<ItemType>* locateHelper(const ItemType& value, TwoThreeNode<ItemType>* subtreePtr);
         ItemType findMinVal(TwoThreeNode<ItemType>* nodePtr);
         TwoThreeNode<ItemType>* findMinNode(TwoThreeNode<ItemType>* nodePtr);
         TwoThreeNode<ItemType>* findMaxNode(TwoThreeNode<ItemType>* nodePtr);
-        void updateMins(TwoThreeNode<ItemType>* nodePtr);
-        void removeHelper(TwoThreeNode<ItemType>* nodeToDeletePtr);
         TwoThreeNode<ItemType>* find(const ItemType& value);
+
+        void updateMins(TwoThreeNode<ItemType>* nodePtr);
+
+        void removeHelper(TwoThreeNode<ItemType>* nodeToDeletePtr);
         void insertHelper(TwoThreeNode<ItemType>* nodePtr, TwoThreeNode<ItemType>* parentPtr);
         void attach(TwoThreeNode<ItemType>* siblingPtr, TwoThreeNode<ItemType>* nodePtr);
         void connect(TwoThreeNode<ItemType>* childPtr, TwoThreeNode<ItemType>* parentPtr, int position);

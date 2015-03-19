@@ -1,3 +1,9 @@
+/**
+ * Name: Aleksander Eskilson
+ * KUID: 2373732
+ * Email: aeskilson@ku.edu
+ * Descr: Implementation of TwoThreeNode class
+ */
 #include <cstddef>
 
 template<class ItemType>

@@ -1,3 +1,9 @@
+/**
+ * Name: Aleksander Eskilson
+ * KUID: 2373732
+ * Email: aeskilson@ku.edu
+ * Descr: Definition of TwoThreeNode class
+ */
 #ifndef _TTNODE
 #define _TTNODE
 
