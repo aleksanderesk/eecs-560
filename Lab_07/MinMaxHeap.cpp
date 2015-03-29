@@ -35,6 +35,30 @@ void MinMaxHeap<ItemType>::build(const ItemType values[]) {
 }
 
 template<typename ItemType>
+void MinMaxHeap<ItemType>::deleteMin() {
+    heapArr[1] = heapArr[heapArrSize - 1];
+    heapArr[heapArrSize - 1] = -1;
+
+    trickleDown(1);
+}
+
+template<typename ItemType>
+void MinMaxHeap<ItemType>::deleteMax() {
+    if (heapArr[2] > heapArr[3]) {
+        heapArr[2] = heapArr[heapArrSize - 1];
+        heapArr[heapArrSize - 1] = -1;
+
+        trickleDown(2);
+    }
+    else {
+        heapArr[3] = heapArr[heapArrSize - 1];
+        heapArr[heapArrSize - 1] = -1;
+        
+        trickleDown(3);
+    }
+}
+
+template<typename ItemType>
 void MinMaxHeap<ItemType>::trickleDown(int pos) {
     if ((int)floor(log2(pos)) % 2 == 0) {
         trickleDownMin(pos);
@@ -145,11 +169,70 @@ void MinMaxHeap<ItemType>::trickleDownMax(int pos) {
     }
 }
 
-/*
 template<typename ItemType>
-void MinMaxHeap<ItemType::insert(const ItemType newValue) {
+void MinMaxHeap<ItemType>::insert(const ItemType& newValue) {
+    int pos;
+    for (pos = 1; bounded(pos) && valued(pos); pos++);
+    std::cout << pos << std::endl;
+
+    heapArr[pos] = newValue;
+    bubbleUp(pos);
 }
-*/
+
+template<typename ItemType>
+void MinMaxHeap<ItemType>::bubbleUp(int pos) {
+    if ((int)floor(log2(pos)) % 2 == 0) {
+        int parent = pos / 2;
+        if (parent != 0 && heapArr[pos] > heapArr[parent]) {
+            ItemType temp = heapArr[pos];
+            heapArr[pos] = heapArr[parent];
+            heapArr[parent] = temp;
+        }
+        else {
+            bubbleUpMin(pos);
+        }
+    }
+    else {
+        int parent = pos / 2;
+        if (parent != 0 && heapArr[pos] < heapArr[parent]) {
+            ItemType temp = heapArr[pos];
+            heapArr[pos] = heapArr[parent];
+            heapArr[parent] = temp;
+        }
+        else {
+            bubbleUpMax(pos);
+        }
+    }
+}
+
+template<typename ItemType>
+void MinMaxHeap<ItemType>::bubbleUpMin(int pos) {
+    int grandparent = (pos / 2) / 2;
+    if (grandparent != 0) {
+        if (heapArr[pos] < heapArr[grandparent]) {
+            ItemType temp = heapArr[pos];
+            heapArr[pos] = heapArr[grandparent];
+            heapArr[grandparent] = temp;
+            
+            bubbleUpMin(grandparent);
+        }
+    }
+}
+
+template<typename ItemType>
+void MinMaxHeap<ItemType>::bubbleUpMax(int pos) {
+    int grandparent = (pos / 2) / 2;
+    if (grandparent != 0) {
+        if (heapArr[pos] > heapArr[grandparent]) {
+            ItemType temp = heapArr[pos];
+            heapArr[pos] = heapArr[grandparent];
+            heapArr[grandparent] = temp;
+            
+            bubbleUpMin(grandparent);
+        }
+    }
+}
+
 
 template<typename ItemType>
 void MinMaxHeap<ItemType>::levelorderTraverse() {
