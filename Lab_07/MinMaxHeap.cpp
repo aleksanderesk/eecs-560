@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 
-#define ARR_SIZE 100;
+#define ARR_SIZE 100
 
 template<typename ItemType>
 MinMaxHeap<ItemType>::MinMaxHeap() {
@@ -195,7 +195,8 @@ void MinMaxHeap<ItemType>::trickleDownMax(int pos) {
 template<typename ItemType>
 void MinMaxHeap<ItemType>::insert(const ItemType& newValue) {
     heapArr[numValues + 1] = newValue;
-    bubbleUp(pos);
+    bubbleUp(numValues + 1);
+    numValues++;
 }
 
 template<typename ItemType>
