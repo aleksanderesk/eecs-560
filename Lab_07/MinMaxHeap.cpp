@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cmath>
 
+#define ARR_SIZE 100;
+
 template<typename ItemType>
 MinMaxHeap<ItemType>::MinMaxHeap() {
     heapArr = new ItemType[0];
@@ -8,10 +10,12 @@ MinMaxHeap<ItemType>::MinMaxHeap() {
 
 template<typename ItemType>
 MinMaxHeap<ItemType>::MinMaxHeap(const ItemType values[], const int size) {
-    heapArrSize = size + 1;
+    heapArrSize = ARR_SIZE + 1;
+    //heapArrSize = size + 1;
     numValues = size;
 
-    heapArr = new ItemType[size];
+    //heapArr = new ItemType[size];
+    heapArr = new ItemType[ARR_SIZE];
     for (int i = 0; i < heapArrSize; i++) {
         heapArr[i] = -1;
     }
@@ -29,7 +33,7 @@ void MinMaxHeap<ItemType>::build(const ItemType values[]) {
         heapArr[i + 1] = values[i];
     }
 
-    for (int i = heapArrSize - 1; i != 0; i--) {
+    for (int i = numValues; i != 0; i--) {
         trickleDown(i);
     }
 }
@@ -190,11 +194,7 @@ void MinMaxHeap<ItemType>::trickleDownMax(int pos) {
 
 template<typename ItemType>
 void MinMaxHeap<ItemType>::insert(const ItemType& newValue) {
-    int pos;
-    for (pos = 1; bounded(pos) && valued(pos); pos++);
-    std::cout << pos << std::endl;
-
-    heapArr[pos] = newValue;
+    heapArr[numValues + 1] = newValue;
     bubbleUp(pos);
 }
 
