@@ -9,7 +9,7 @@ MinMaxHeap<ItemType>::MinMaxHeap() {
 template<typename ItemType>
 MinMaxHeap<ItemType>::MinMaxHeap(const ItemType values[], const int size) {
     heapArrSize = size + 1;
-    heapOccupancy = 0;
+    numValues = size;
 
     heapArr = new ItemType[size];
     for (int i = 0; i < heapArrSize; i++) {
@@ -36,26 +36,45 @@ void MinMaxHeap<ItemType>::build(const ItemType values[]) {
 
 template<typename ItemType>
 void MinMaxHeap<ItemType>::deleteMin() {
-    heapArr[1] = heapArr[heapArrSize - 1];
-    heapArr[heapArrSize - 1] = -1;
+    if (numValues == 0) {
+        std::cout << "Heap is empty" << std::endl;
+    }
+    else if (numValues == 1) {
+        heapArr[1] = -1;
+    }
+    else {
+        heapArr[1] = heapArr[numValues];
+        heapArr[numValues] = -1;
 
-    trickleDown(1);
+        trickleDown(1);
+        numValues--;
+    }
 }
 
 template<typename ItemType>
 void MinMaxHeap<ItemType>::deleteMax() {
-    if (heapArr[2] > heapArr[3]) {
-        heapArr[2] = heapArr[heapArrSize - 1];
-        heapArr[heapArrSize - 1] = -1;
-
-        trickleDown(2);
+    if (numValues == 0) {
+        std::cout << "Heap is empty" << std::endl;
+    }
+    else if (numValues == 1) {
+        heapArr[1] = -1;
     }
     else {
-        heapArr[3] = heapArr[heapArrSize - 1];
-        heapArr[heapArrSize - 1] = -1;
-        
-        trickleDown(3);
+        if (heapArr[2] > heapArr[3]) {
+            heapArr[2] = heapArr[numValues];
+            heapArr[numValues] = -1;
+
+            trickleDown(2);
+        }
+        else {
+            heapArr[3] = heapArr[numValues];
+            heapArr[numValues] = -1;
+            
+            trickleDown(3);
+        }
     }
+
+    numValues--;
 }
 
 template<typename ItemType>
