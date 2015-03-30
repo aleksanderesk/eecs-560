@@ -1,9 +1,31 @@
 #include <iostream>
+#include <fstream>
+#include <string>
 #include "MinMaxHeap.h"
 
 int main() {
-    int size = 10;
-    int vals[10] = {6, 8, 5, 2, 7, 10, 3, 9, 12, 1};
+    std::cout << "Provide the name of the integer list file" << std::endl;
+    std::string fileName;
+    std::cin >> fileName;
+
+    std::ifstream input;
+    input.open(fileName.c_str());
+
+    int size = 0;
+    int value;
+    while (input >> value) {
+        size++;
+    }
+
+    input.clear();
+    input.seekg(0, input.beg);
+
+    int vals[size];
+    int i = 0;
+    while (input >> value) {
+        vals[i] = value;
+        i++;
+    }
 
     MinMaxHeap<int> intHeap(vals, size);
 
