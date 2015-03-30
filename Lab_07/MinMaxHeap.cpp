@@ -1,3 +1,9 @@
+/**
+ * Name: Aleksander Eskilson
+ * KUID: 2373732
+ * Email: aeskilson@ku.edu
+ * Descr: MinMax Heap class implementation
+ */
 #include <iostream>
 #include <cmath>
 

@@ -1,3 +1,9 @@
+/**
+ * Name: Aleksander Eskilson
+ * KUID: 2373732
+ * Email: aeskilson@ku.edu
+ * Descr: Driver program
+ */
 #include <iostream>
 #include <fstream>
 #include <string>

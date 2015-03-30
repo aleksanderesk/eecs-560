@@ -1,3 +1,9 @@
+/**
+ * Name: Aleksander Eskilson
+ * KUID: 2373732
+ * Email: aeskilson@ku.edu
+ * Descr: MinMax Heap class description
+ */
 #ifndef _MINMAXHEAP
 #define _MINMAXHEAP
 
@@ -8,7 +14,7 @@ class MinMaxHeap {
     private:
         ItemType* heapArr;
         int heapArrSize;
-        int numValues;
+        int numValues; // holds the current number of values in the heap
         Queue<int> levelorderQueue;
 
         void build(const ItemType values[]);
