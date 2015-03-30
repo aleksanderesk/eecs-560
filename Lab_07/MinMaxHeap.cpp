@@ -1,21 +1,25 @@
 #include <iostream>
 #include <cmath>
 
-#define ARR_SIZE 100
+#define ARR_SIZE 1000 // A reasonable max heap size
 
+/* empty constructor */
 template<typename ItemType>
 MinMaxHeap<ItemType>::MinMaxHeap() {
     heapArr = new ItemType[0];
 }
 
+/**
+ * Parametrized constructor
+ * Pre: An initial array of starting values, and the size of the array
+ * Post: A min-max heap built from the starting values
+ */
 template<typename ItemType>
 MinMaxHeap<ItemType>::MinMaxHeap(const ItemType values[], const int size) {
     heapArrSize = ARR_SIZE + 1;
-    //heapArrSize = size + 1;
     numValues = size;
 
-    //heapArr = new ItemType[size];
-    heapArr = new ItemType[ARR_SIZE];
+    heapArr = new ItemType[heapArrSize];
     for (int i = 0; i < heapArrSize; i++) {
         heapArr[i] = -1;
     }
@@ -23,13 +27,16 @@ MinMaxHeap<ItemType>::MinMaxHeap(const ItemType values[], const int size) {
     build(values);
 }
 
+/* generic destructor */
 template<typename ItemType>
 MinMaxHeap<ItemType>::~MinMaxHeap() {
+    delete[] heapArr;
 }
 
+/* Heapifies a min-max heap of starting values in linear time */
 template<typename ItemType>
 void MinMaxHeap<ItemType>::build(const ItemType values[]) {
-    for (int i = 0; i < heapArrSize - 1; i++) {
+    for (int i = 0; i < numValues; i++) {
         heapArr[i + 1] = values[i];
     }
 
@@ -38,6 +45,7 @@ void MinMaxHeap<ItemType>::build(const ItemType values[]) {
     }
 }
 
+/* Deletes the minimum element */
 template<typename ItemType>
 void MinMaxHeap<ItemType>::deleteMin() {
     if (numValues == 0) {
@@ -45,6 +53,7 @@ void MinMaxHeap<ItemType>::deleteMin() {
     }
     else if (numValues == 1) {
         heapArr[1] = -1;
+        numValues--;
     }
     else {
         heapArr[1] = heapArr[numValues];
@@ -55,15 +64,17 @@ void MinMaxHeap<ItemType>::deleteMin() {
     }
 }
 
+/* deletes the maximum element */
 template<typename ItemType>
 void MinMaxHeap<ItemType>::deleteMax() {
-    if (numValues == 0) {
+    if (numValues == 0) { // empty 
         std::cout << "Heap is empty" << std::endl;
     }
-    else if (numValues == 1) {
+    else if (numValues == 1) { // remove head
         heapArr[1] = -1;
+        numValues--;
     }
-    else {
+    else { // remove the largest of the first max row, replace and trickle down
         if (heapArr[2] > heapArr[3]) {
             heapArr[2] = heapArr[numValues];
             heapArr[numValues] = -1;
@@ -76,11 +87,12 @@ void MinMaxHeap<ItemType>::deleteMax() {
             
             trickleDown(3);
         }
-    }
 
-    numValues--;
+        numValues--;
+    }
 }
 
+/* moves an element down to its appropriate level */
 template<typename ItemType>
 void MinMaxHeap<ItemType>::trickleDown(int pos) {
     if ((int)floor(log2(pos)) % 2 == 0) {
@@ -91,8 +103,10 @@ void MinMaxHeap<ItemType>::trickleDown(int pos) {
     }
 }
 
+/* swap a min element with its appropriate child or grandchild */
 template<typename ItemType>
 void MinMaxHeap<ItemType>::trickleDownMin(int pos) {
+    // find minimum among children and grandchildren
     int lc = 2 * pos;
     int rc = 2 * pos + 1;
     int lclc = 2 * (2 * pos);
@@ -114,6 +128,7 @@ void MinMaxHeap<ItemType>::trickleDownMin(int pos) {
     if (bounded(rcrc) && valued(rcrc) && heapArr[m] > heapArr[rcrc])
         m = rcrc;
 
+    // swap appropriately
     if (m != 0) {
         if (m == lclc || m == lcrc || m == rclc || m == rcrc) {
 
@@ -142,8 +157,10 @@ void MinMaxHeap<ItemType>::trickleDownMin(int pos) {
     } 
 }
 
+/* swap a max element with its appropriate child or grandchild */
 template<typename ItemType>
 void MinMaxHeap<ItemType>::trickleDownMax(int pos) {
+    // find maximum among children and grandchildren
     int lc = 2 * pos;
     int rc = 2 * pos + 1;
     int lclc = 2 * (2 * pos);
@@ -165,6 +182,7 @@ void MinMaxHeap<ItemType>::trickleDownMax(int pos) {
     if (bounded(rcrc) && valued(rcrc) && heapArr[m] < heapArr[rcrc])
         m = rcrc;
 
+    // swap appropriately
     if (m != 0) {
         if (m == lclc || m == lcrc || m == rclc || m == rcrc) {
             if (heapArr[m] > heapArr[pos]) {
@@ -192,13 +210,20 @@ void MinMaxHeap<ItemType>::trickleDownMax(int pos) {
     }
 }
 
+/* inserts an element at the end, move it to appropriate location */
 template<typename ItemType>
 void MinMaxHeap<ItemType>::insert(const ItemType& newValue) {
-    heapArr[numValues + 1] = newValue;
-    bubbleUp(numValues + 1);
-    numValues++;
+    if (numValues < heapArrSize) {
+        heapArr[numValues + 1] = newValue;
+        bubbleUp(numValues + 1);
+        numValues++;
+    }
+    else {
+        std::cout << "Inadequate space" << std::endl;
+    }
 }
 
+/* bubble up an element to its appropriate location */
 template<typename ItemType>
 void MinMaxHeap<ItemType>::bubbleUp(int pos) {
     if ((int)floor(log2(pos)) % 2 == 0) {
@@ -207,6 +232,8 @@ void MinMaxHeap<ItemType>::bubbleUp(int pos) {
             ItemType temp = heapArr[pos];
             heapArr[pos] = heapArr[parent];
             heapArr[parent] = temp;
+
+            bubbleUpMax(parent);
         }
         else {
             bubbleUpMin(pos);
@@ -218,6 +245,8 @@ void MinMaxHeap<ItemType>::bubbleUp(int pos) {
             ItemType temp = heapArr[pos];
             heapArr[pos] = heapArr[parent];
             heapArr[parent] = temp;
+
+            bubbleUpMin(parent);
         }
         else {
             bubbleUpMax(pos);
@@ -225,6 +254,7 @@ void MinMaxHeap<ItemType>::bubbleUp(int pos) {
     }
 }
 
+/* bubble up a min element to its appropriate row, swapping along the way */
 template<typename ItemType>
 void MinMaxHeap<ItemType>::bubbleUpMin(int pos) {
     int grandparent = (pos / 2) / 2;
@@ -239,6 +269,7 @@ void MinMaxHeap<ItemType>::bubbleUpMin(int pos) {
     }
 }
 
+/* bubble up a max element to its appropriate row, swapping along the way */
 template<typename ItemType>
 void MinMaxHeap<ItemType>::bubbleUpMax(int pos) {
     int grandparent = (pos / 2) / 2;
@@ -253,14 +284,24 @@ void MinMaxHeap<ItemType>::bubbleUpMax(int pos) {
     }
 }
 
-
+/* prints levelorder traversal with a newline for each level */
 template<typename ItemType>
 void MinMaxHeap<ItemType>::levelorderTraverse() {
     levelorderQueue.enqueue(1);
     int indexToVisit;
+    bool toggle = true;
+    bool prevToggle = true;
 
     do {
         indexToVisit = levelorderQueue.peek();
+        if ((int)(floor(log2(indexToVisit))) % 2 == 0) 
+            toggle = true;
+        else
+            toggle = false;
+
+        if (toggle != prevToggle)
+            std::cout << std::endl;
+
         std::cout << heapArr[indexToVisit] << " ";
 
         if (bounded(indexToVisit * 2) && valued(indexToVisit * 2)) {
@@ -270,17 +311,21 @@ void MinMaxHeap<ItemType>::levelorderTraverse() {
             levelorderQueue.enqueue(indexToVisit * 2 + 1);
         }
 
+        prevToggle = toggle;        
+
         levelorderQueue.dequeue();
     } while (!(levelorderQueue.isEmpty()));
 
     std::cout << std::endl;
 }
 
+/* is the index given inside the bounds of the array? */
 template<typename ItemType>
 bool MinMaxHeap<ItemType>::bounded(const int index) {
     return index < heapArrSize;
 }
 
+/* does the index given have a non-holder, i.e. -1, value? */
 template<typename ItemType>
 bool MinMaxHeap<ItemType>::valued(const int index) {
     return heapArr[index] != -1;
