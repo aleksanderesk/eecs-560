@@ -1,27 +1,27 @@
 #include <iostream>
 
 template<typename ItemType>
-LeftistTree<ItemType>::LeftistTree(): rootPtr(NULL) {
+SkewTree<ItemType>::SkewTree(): rootPtr(NULL) {
 }
 
 template<typename ItemType>
-LeftistTree<ItemType>::~LeftistTree() {
+SkewTree<ItemType>::~SkewTree() {
     if (rootPtr != NULL)
         deleteTree(rootPtr);
 }
 
 template<typename ItemType>
-void LeftistTree<ItemType>::insert(const ItemType& newEntry) {
-    LeftistNode<ItemType>* newNodePtr = new LeftistNode<ItemType>(newEntry);
+void SkewTree<ItemType>::insert(const ItemType& newEntry) {
+    SkewNode<ItemType>* newNodePtr = new SkewNode<ItemType>(newEntry);
     rootPtr = merge(rootPtr, newNodePtr);
 }
 
 template<typename ItemType>
-void LeftistTree<ItemType>::deleteMin() {
+void SkewTree<ItemType>::deleteMin() {
     if (rootPtr != NULL) {
-        LeftistNode<ItemType>* nodeToDeletePtr = rootPtr;
-        LeftistNode<ItemType>* leftChild = rootPtr -> getLeftChildPtr();
-        LeftistNode<ItemType>* rightChild = rootPtr -> getRightChildPtr();
+        SkewNode<ItemType>* nodeToDeletePtr = rootPtr;
+        SkewNode<ItemType>* leftChild = rootPtr -> getLeftChildPtr();
+        SkewNode<ItemType>* rightChild = rootPtr -> getRightChildPtr();
 
         delete nodeToDeletePtr;
         nodeToDeletePtr = NULL;
@@ -31,7 +31,7 @@ void LeftistTree<ItemType>::deleteMin() {
 }
 
 template<typename ItemType>
-LeftistNode<ItemType>* LeftistTree<ItemType>::merge(LeftistNode<ItemType>* leftTreePtr, LeftistNode<ItemType>* rightTreePtr) {
+SkewNode<ItemType>* SkewTree<ItemType>::merge(SkewNode<ItemType>* leftTreePtr, SkewNode<ItemType>* rightTreePtr) {
     if (leftTreePtr == NULL) {
         return rightTreePtr;
     } 
@@ -40,7 +40,7 @@ LeftistNode<ItemType>* LeftistTree<ItemType>::merge(LeftistNode<ItemType>* leftT
     } 
     else {
         if (leftTreePtr -> getItem() > rightTreePtr -> getItem()) {
-            LeftistNode<ItemType>* temp;
+            SkewNode<ItemType>* temp;
             
             temp = leftTreePtr;
             leftTreePtr = rightTreePtr;
@@ -48,36 +48,22 @@ LeftistNode<ItemType>* LeftistTree<ItemType>::merge(LeftistNode<ItemType>* leftT
 
             temp = NULL;
         }
-
-        leftTreePtr -> setRightChildPtr(merge(leftTreePtr -> getRightChildPtr(), rightTreePtr));
-
-        if (leftTreePtr -> getLeftChildPtr() == NULL || 
-                (leftTreePtr -> getLeftChildPtr() -> getRank() < 
-                leftTreePtr -> getRightChildPtr() -> getRank())) {
-            LeftistNode<ItemType>* temp;
-
-            temp = leftTreePtr -> getLeftChildPtr();
-            leftTreePtr -> setLeftChildPtr(leftTreePtr -> getRightChildPtr());
-            leftTreePtr -> setRightChildPtr(temp);
-
-            temp = NULL;
-        }
-        if (leftTreePtr -> getRightChildPtr() == NULL) {
-            leftTreePtr -> setRank(1);
-        }
-        else {
-            leftTreePtr -> setRank((leftTreePtr -> getRightChildPtr() -> getRank()) + 1);
-        }
+        
+        SkewNode<ItemType>* temp;
+        
+        temp = leftTreePtr -> getRightChildPtr();
+        leftTreePtr -> setRightChildPtr(leftTreePtr -> getLeftChildPtr());
+        leftTreePtr -> setLeftChildPtr(merge(temp, rightTreePtr));
 
         return leftTreePtr;
     }
 }
 
 template<typename ItemType>
-void LeftistTree<ItemType>::levelorderTraverse() {
+void SkewTree<ItemType>::levelorderTraverse() {
     std::cout << "Levelorder: ";
     if (rootPtr != NULL) {
-        LeftistNode<ItemType>* nodeToVisitPtr;
+        SkewNode<ItemType>* nodeToVisitPtr;
         levelorderQueue.enqueue(rootPtr);
 
         do {
@@ -99,14 +85,14 @@ void LeftistTree<ItemType>::levelorderTraverse() {
 }
 
 template<typename ItemType>
-void LeftistTree<ItemType>::preorderTraverse() {
+void SkewTree<ItemType>::preorderTraverse() {
     std::cout << "Preorder: ";
     preorderHelper(rootPtr);
     std::cout << std::endl;
 }
 
 template<typename ItemType>
-void LeftistTree<ItemType>::preorderHelper(LeftistNode<ItemType>* subTreePtr) {
+void SkewTree<ItemType>::preorderHelper(SkewNode<ItemType>* subTreePtr) {
     if (subTreePtr != NULL) {
         std::cout << subTreePtr -> getItem() << " ";
         preorderHelper(subTreePtr -> getLeftChildPtr());
@@ -115,14 +101,14 @@ void LeftistTree<ItemType>::preorderHelper(LeftistNode<ItemType>* subTreePtr) {
 }
 
 template<typename ItemType>
-void LeftistTree<ItemType>::inorderTraverse() {
+void SkewTree<ItemType>::inorderTraverse() {
     std::cout << "Inorder: ";
     inorderHelper(rootPtr);
     std::cout << std::endl;
 }
 
 template<typename ItemType>
-void LeftistTree<ItemType>::inorderHelper(LeftistNode<ItemType>* subTreePtr) {
+void SkewTree<ItemType>::inorderHelper(SkewNode<ItemType>* subTreePtr) {
     if (subTreePtr != NULL) {
         inorderHelper(subTreePtr -> getLeftChildPtr());
         std::cout << subTreePtr -> getItem() << " ";
@@ -131,7 +117,7 @@ void LeftistTree<ItemType>::inorderHelper(LeftistNode<ItemType>* subTreePtr) {
 }
 
 template<typename ItemType>
-void LeftistTree<ItemType>::deleteTree(LeftistNode<ItemType>* subTreePtr) {
+void SkewTree<ItemType>::deleteTree(SkewNode<ItemType>* subTreePtr) {
     if (subTreePtr -> getLeftChildPtr() != NULL) {
         deleteTree(subTreePtr -> getLeftChildPtr());
     }
