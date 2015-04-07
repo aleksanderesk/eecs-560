@@ -72,6 +72,7 @@ int main() {
             delete skewTree;
             
             std::cout << std::endl;
+
         }
 
         double leftistTreeInsertionSum = 0;
@@ -91,6 +92,7 @@ int main() {
         std::cout << "Skew Tree average operation time: " << skewTreeOperationSum / 5.0 << std::endl;
 
         std::cout << std::endl;
+
     }
 
     return 0;
