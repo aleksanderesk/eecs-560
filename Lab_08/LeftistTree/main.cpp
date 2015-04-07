@@ -18,9 +18,9 @@ int main() {
     }
 
     int selection;
-    while (selection != 5) {
+    while (selection != 6) {
         std::cout << "Please choose one of the following commands:" << std::endl;
-        std::cout << "1- insert\n2- deletemin\n3- deletemax\n4- levelorder\n5- exit" << std::endl;
+        std::cout << "1- insert\n2- deletemin\n3- preorder\n4- inorder\n5- levelorder\n6- exit" << std::endl;
         std::cin >> selection;
        
         int value;
@@ -33,7 +33,13 @@ int main() {
             case 2:
                 intTree.deleteMin();
                 break;
+            case 3:
+                intTree.preorderTraverse();
+                break;
             case 4:
+                intTree.inorderTraverse();
+                break;
+            case 5:
                 intTree.levelorderTraverse();
                 break;
         }

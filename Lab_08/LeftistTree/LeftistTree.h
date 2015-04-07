@@ -11,8 +11,8 @@ class LeftistTree {
         Queue<LeftistNode<ItemType>*> levelorderQueue;
 
         LeftistNode<ItemType>* merge(LeftistNode<ItemType>* leftTreePtr, LeftistNode<ItemType>* rightTreePtr);
-        //void preorderHelper(LeftistNode<ItemType>* subTreePtr);
-        //void inorderHelper(LeftistNode<ItemType>* subTreePtr);
+        void preorderHelper(LeftistNode<ItemType>* subTreePtr);
+        void inorderHelper(LeftistNode<ItemType>* subTreePtr);
 
         void deleteTree(LeftistNode<ItemType>* subTreePtr);
 
@@ -22,8 +22,8 @@ class LeftistTree {
 
         void insert(const ItemType& newEntry);
         void deleteMin();
-        //void preorderTraverse();
-        //void inorderTraverse();
+        void preorderTraverse();
+        void inorderTraverse();
         void levelorderTraverse();
 };
 

@@ -12,24 +12,25 @@ LeftistTree<ItemType>::~LeftistTree() {
 template<typename ItemType>
 void LeftistTree<ItemType>::insert(const ItemType& newEntry) {
     LeftistNode<ItemType>* newNodePtr = new LeftistNode<ItemType>(newEntry);
-    rootPtr = merge(newNodePtr, rootPtr);
+    rootPtr = merge(rootPtr, newNodePtr);
 }
 
 template<typename ItemType>
 void LeftistTree<ItemType>::deleteMin() {
-    LeftistNode<ItemType>* nodeToDeletePtr = rootPtr;
-    LeftistNode<ItemType>* leftChild = rootPtr -> getLeftChildPtr();
-    LeftistNode<ItemType>* rightChild = rootPtr -> getRightChildPtr();
+    if (rootPtr != NULL) {
+        LeftistNode<ItemType>* nodeToDeletePtr = rootPtr;
+        LeftistNode<ItemType>* leftChild = rootPtr -> getLeftChildPtr();
+        LeftistNode<ItemType>* rightChild = rootPtr -> getRightChildPtr();
 
-    delete nodeToDeletePtr;
-    nodeToDeletePtr = NULL;
+        delete nodeToDeletePtr;
+        nodeToDeletePtr = NULL;
 
-    rootPtr = merge(leftChild, rightChild);
+        rootPtr = merge(leftChild, rightChild);
+    }
 }
 
 template<typename ItemType>
 LeftistNode<ItemType>* LeftistTree<ItemType>::merge(LeftistNode<ItemType>* leftTreePtr, LeftistNode<ItemType>* rightTreePtr) {
-    std::cout << "got to merge" << std::endl;
     if (leftTreePtr == NULL) {
         return rightTreePtr;
     } 
@@ -48,15 +49,10 @@ LeftistNode<ItemType>* LeftistTree<ItemType>::merge(LeftistNode<ItemType>* leftT
         }
 
         leftTreePtr -> setRightChildPtr(merge(leftTreePtr -> getRightChildPtr(), rightTreePtr));
-        if (leftTreePtr -> getRightChildPtr() == NULL) {
-            leftTreePtr -> setRank(1);
-        }
-        else {
-            leftTreePtr -> setRank((leftTreePtr -> getRightChildPtr() -> getRank()) + 1);
-        }
 
-        if (leftTreePtr -> getLeftChildPtr() -> getRank() < 
-                leftTreePtr -> getRightChildPtr() -> getRank()) {
+        if (leftTreePtr -> getLeftChildPtr() == NULL || 
+                (leftTreePtr -> getLeftChildPtr() -> getRank() < 
+                leftTreePtr -> getRightChildPtr() -> getRank())) {
             LeftistNode<ItemType>* temp;
 
             temp = leftTreePtr -> getLeftChildPtr();
@@ -64,6 +60,12 @@ LeftistNode<ItemType>* LeftistTree<ItemType>::merge(LeftistNode<ItemType>* leftT
             leftTreePtr -> setRightChildPtr(temp);
 
             temp = NULL;
+        }
+        if (leftTreePtr -> getRightChildPtr() == NULL) {
+            leftTreePtr -> setRank(1);
+        }
+        else {
+            leftTreePtr -> setRank((leftTreePtr -> getRightChildPtr() -> getRank()) + 1);
         }
 
         return leftTreePtr;
@@ -93,6 +95,38 @@ void LeftistTree<ItemType>::levelorderTraverse() {
     }
     
     std::cout << std::endl;
+}
+
+template<typename ItemType>
+void LeftistTree<ItemType>::preorderTraverse() {
+    std::cout << "Preorder: ";
+    preorderHelper(rootPtr);
+    std::cout << std::endl;
+}
+
+template<typename ItemType>
+void LeftistTree<ItemType>::preorderHelper(LeftistNode<ItemType>* subTreePtr) {
+    if (subTreePtr != NULL) {
+        std::cout << subTreePtr -> getItem() << " ";
+        preorderHelper(subTreePtr -> getLeftChildPtr());
+        preorderHelper(subTreePtr -> getRightChildPtr());
+    }
+}
+
+template<typename ItemType>
+void LeftistTree<ItemType>::inorderTraverse() {
+    std::cout << "Inorder: ";
+    inorderHelper(rootPtr);
+    std::cout << std::endl;
+}
+
+template<typename ItemType>
+void LeftistTree<ItemType>::inorderHelper(LeftistNode<ItemType>* subTreePtr) {
+    if (subTreePtr != NULL) {
+        inorderHelper(subTreePtr -> getLeftChildPtr());
+        std::cout << subTreePtr -> getItem() << " ";
+        inorderHelper(subTreePtr -> getRightChildPtr());
+    }
 }
 
 template<typename ItemType>
