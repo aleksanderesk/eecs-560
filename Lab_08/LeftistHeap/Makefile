@@ -6,3 +6,4 @@ main.o: main.cpp LeftistTree.h LeftistNode.h
 
 clean:
 	rm *.o
+	rm lab8
