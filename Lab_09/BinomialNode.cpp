@@ -1,3 +1,9 @@
+/**
+ * Name: Aleksander Eskilson
+ * KUID: 2373732
+ * Email: aeskilson@ku.edu
+ * Descr: Implementation of the Binomial Node class
+ */
 template<typename ItemType>
 BinomialNode<ItemType>::BinomialNode(): leftSiblingPtr(this), firstChildPtr(NULL), rightSiblingPtr(NULL) {
 }
