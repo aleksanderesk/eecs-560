@@ -2,9 +2,19 @@
 #define _SPANNER
 
 class Spanner {
+    private:
+        DisjointSet<int> candidateSet;
+        
+        int** adjMatrix;
+        int dim;
+
     public:
-        kruskals(const int** matrix);
-        prims(const int** matrix);
+        Spanner();
+        Spanner(int** matrix, int dimension);
+        virtual ~Spanner();
+        
+        kruskals();
+        prims();
 };
 
 #include "Spanner.cpp"
