@@ -6,8 +6,13 @@ SkewTree<ItemType>::SkewTree(): rootPtr(NULL) {
 
 template<typename ItemType>
 SkewTree<ItemType>::~SkewTree() {
-    if (rootPtr != NULL)
+    if (!(isEmpty())) 
         deleteTree(rootPtr);
+}
+
+template<typename ItemType>
+bool SkewTree<ItemType>::isEmpty() {
+    return rootPtr == NULL;
 }
 
 template<typename ItemType>
@@ -18,7 +23,7 @@ void SkewTree<ItemType>::insert(const ItemType& newEntry) {
 
 template<typename ItemType>
 void SkewTree<ItemType>::deleteMin() {
-    if (rootPtr != NULL) {
+    if (!(isEmpty())) {
         SkewNode<ItemType>* nodeToDeletePtr = rootPtr;
         SkewNode<ItemType>* leftChild = rootPtr -> getLeftChildPtr();
         SkewNode<ItemType>* rightChild = rootPtr -> getRightChildPtr();
@@ -62,7 +67,7 @@ SkewNode<ItemType>* SkewTree<ItemType>::merge(SkewNode<ItemType>* leftTreePtr, S
 template<typename ItemType>
 void SkewTree<ItemType>::levelorderTraverse() {
     std::cout << "Levelorder: ";
-    if (rootPtr != NULL) {
+    if (!(isEmpty())) {
         SkewNode<ItemType>* nodeToVisitPtr;
         levelorderQueue.enqueue(rootPtr);
 

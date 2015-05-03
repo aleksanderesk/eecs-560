@@ -20,6 +20,7 @@ class SkewTree {
         SkewTree();
         virtual ~SkewTree();
 
+        bool isEmpty();
         void insert(const ItemType& newEntry);
         void deleteMin();
         void preorderTraverse();

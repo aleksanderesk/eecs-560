@@ -11,9 +11,21 @@ LeftistTree<ItemType>::~LeftistTree() {
 }
 
 template<typename ItemType>
+LeftistNode<ItemType>* LeftistTree<ItemType>::findHelper(LeftistNode<ItemType>* nodePtr, ItemType& value) {
+
+}
+
+template<typename ItemType>
+bool LeftistTree<ItemType>::find(const ItemType& value) {
+    
+}
+
+template<typename ItemType>
 void LeftistTree<ItemType>::insert(const ItemType& newEntry) {
-    LeftistNode<ItemType>* newNodePtr = new LeftistNode<ItemType>(newEntry);
-    rootPtr = merge(rootPtr, newNodePtr);
+    if (!(find(newEntry))) {
+        LeftistNode<ItemType>* newNodePtr = new LeftistNode<ItemType>(newEntry);
+        rootPtr = merge(rootPtr, newNodePtr);
+    }
 }
 
 template<typename ItemType>
