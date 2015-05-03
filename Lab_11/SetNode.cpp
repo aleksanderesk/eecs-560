@@ -7,7 +7,7 @@ SetNode<ItemType>::SetNode(const ItemType& anItem): parentPtr(NULL), rank(0) {
     setItem(anItem);
 }
 
-template<typename Itemtype>
+template<typename ItemType>
 void SetNode<ItemType>::setItem(const ItemType& anItem) {
     item = anItem;
 }

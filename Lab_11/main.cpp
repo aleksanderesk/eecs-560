@@ -1,7 +1,7 @@
-#include<iostream>
-#include<fstream>
-#include<string>
-//#include "Spanner.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include "Spanner.h"
 
 void print(int** matrix, int dim) {
     for (int i = 0; i < dim; i++) {
@@ -25,6 +25,7 @@ int main() {
     
     int entry;
     int dim;
+    Spanner* spanner;
     for (int n = 0; n < cases; n++) {
         input >> dim;
         int** matrix = new int*[dim];
@@ -36,11 +37,21 @@ int main() {
             }
         }
         print(matrix, dim);
+        spanner = new Spanner(matrix, dim);
+        spanner -> kruskals();
+        spanner -> prims();
 
+        delete spanner;
+        spanner = NULL;
+
+        /*
         for (int i = 0; i < dim; i++) {
             delete[] matrix[i];
+            matrix[i] = NULL;
         }
-        delete[] matrix;
+        matrix = NULL;
+        std::cout << "Deleted old matrix" << std::endl;
+        */
     }
 
     return 0;

@@ -5,8 +5,9 @@ DisjointSet<ItemType>::DisjointSet() {
 }
 
 template<typename ItemType>
-DisjointSet<ItemType>::DisjointSet(ItemType set[], int size) {
-    auxArr = new SetNode<ItemType>[size];
+DisjointSet<ItemType>::DisjointSet(ItemType* set, int size) {
+    setSize = size;
+    auxArr = new SetNode<ItemType>*[size];
     for (int i = 0; i < size; i++) {
         auxArr[i] = new SetNode<ItemType>(set[i]);
     }
@@ -18,7 +19,7 @@ DisjointSet<ItemType>::~DisjointSet() {
 }
 
 template<typename ItemType>
-void DisjointSet<ItemType>::union(const ItemType seti, const ItemType setj) {
+void DisjointSet<ItemType>::setUnion(const ItemType seti, const ItemType setj) {
     SetNode<ItemType>* setiPtr = NULL;
     SetNode<ItemType>* setjPtr = NULL;
 
@@ -30,32 +31,34 @@ void DisjointSet<ItemType>::union(const ItemType seti, const ItemType setj) {
     }
     for (int i = 0; i < setSize; i++) {
         if (auxArr[i] -> getItem() == setj) {
-            setjPtr = AuxArr[i];
+            setjPtr = auxArr[i];
             break;
         }
     }
+    setiPtr = findHelper(setiPtr);
+    setjPtr = findHelper(setjPtr);
 
     if (setiPtr != NULL && setjPtr != NULL) {
-        if (seti -> getRank() <= setj -> getRank()) {
-            seti -> setParentPtr(setj);
+        if (setiPtr -> getRank() <= setjPtr -> getRank()) {
+            setiPtr -> setParentPtr(setjPtr);
 
-            if (seti -> getRank() == setj -> getRank()) {
-                setj -> setRank(setj -> getRank() + 1);
+            if (setiPtr -> getRank() == setjPtr -> getRank()) {
+                setjPtr -> setRank(setjPtr -> getRank() + 1);
             }
         }
         else {
-            setj -> setParentPtr(seti);
+            setjPtr -> setParentPtr(setiPtr);
         }
     }
 }
 
 template<typename ItemType>
 SetNode<ItemType>* DisjointSet<ItemType>::findHelper(SetNode<ItemType>* setPtr) {
-    if (setPtr -> getParent() == NULL) {
+    if (setPtr -> getParentPtr() == NULL) {
         return setPtr;
     }
     else {
-        return findHelper(setPtr -> getParent());
+        return findHelper(setPtr -> getParentPtr());
     }
 }
 
