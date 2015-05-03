@@ -1,3 +1,9 @@
+/**
+ * Name: Aleksander Eskilson
+ * KUID: 2373732
+ * Email: aeskilson@ku.edu
+ * Desc: Class definition for Disjoint Set
+ */
 #ifndef _DIS_SET
 #define _DIS_SET
 

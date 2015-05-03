@@ -1,3 +1,9 @@
+/**
+ * Name: Aleksander Eskilson
+ * KUID: 2373732
+ * Email: aeskilson@ku.edu
+ * Desc: Class definition for Edge Node, representing an edge between two vertices
+ */
 #ifndef _EDGE
 #define _EDGE
 

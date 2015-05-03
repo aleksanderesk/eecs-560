@@ -1,3 +1,9 @@
+/**
+ * Name: Aleksander Eskilson
+ * KUID: 2373732
+ * Email: aeskilson@ku.edu
+ * Desc: Class implementation for Set Node
+ */
 template<typename ItemType>
 SetNode<ItemType>::SetNode(): parentPtr(NULL), rank(0) {
 }

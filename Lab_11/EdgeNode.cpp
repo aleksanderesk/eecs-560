@@ -1,3 +1,9 @@
+/**
+ * Name: Aleksander Eskilson
+ * KUID: 2373732
+ * Email: aeskilson@ku.edu
+ * Desc: Class implementation for Edge Node
+ */
 EdgeNode::EdgeNode() {
 }
 

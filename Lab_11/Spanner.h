@@ -1,3 +1,10 @@
+/**
+ * Name: Aleksander Eskilson
+ * KUID: 2373732
+ * Email: aeskilson@ku.edu
+ * Desc: Class description for Spanner, which finds the minimum spanning tree
+ * of an adjacency matrix using Kruskal's and Prim's algorithms
+ */
 #ifndef _SPANNER
 #define _SPANNER
 
@@ -12,7 +19,10 @@ class Spanner {
         int** adjMatrix;
         int dim;
 
-        void bubbleSort(EdgeNode** pq, int size);
+        void sort(EdgeNode** pq, int size);
+        bool element(int elem, int* vT);
+        EdgeNode* dequeue(EdgeNode** pq, int size);
+        void updateQueue(EdgeNode** pq, int* vT);
         bool emptyQueue(EdgeNode** pq, int size);
 
     public:
@@ -21,7 +31,7 @@ class Spanner {
         virtual ~Spanner();
         
         void kruskals();
-        //void prims();
+        void prims();
 };
 
 #include "Spanner.cpp"

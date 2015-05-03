@@ -1,16 +1,13 @@
+/**
+ * Name: Aleksander Eskilson
+ * KUID: 2373732
+ * Email: aeskilson@ku.edu
+ * Desc: Driver for Minimum Spanning Tree finder
+ */
 #include <iostream>
 #include <fstream>
 #include <string>
 #include "Spanner.h"
-
-void print(int** matrix, int dim) {
-    for (int i = 0; i < dim; i++) {
-        for (int j = 0; j < dim; j++) {
-            std::cout << matrix[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
-}
 
 int main() {
     std::cout << "Provide the name of the adjacency matrix file" << std::endl;
@@ -36,22 +33,15 @@ int main() {
                 matrix[i][j] = entry;
             }
         }
-        print(matrix, dim);
         spanner = new Spanner(matrix, dim);
+        std::cout << "Graph " << n + 1 << ":\nKruskal: ";
         spanner -> kruskals();
+        std::cout << "Prim: ";
         spanner -> prims();
+        std::cout << std::endl;
 
         delete spanner;
         spanner = NULL;
-
-        /*
-        for (int i = 0; i < dim; i++) {
-            delete[] matrix[i];
-            matrix[i] = NULL;
-        }
-        matrix = NULL;
-        std::cout << "Deleted old matrix" << std::endl;
-        */
     }
 
     return 0;
